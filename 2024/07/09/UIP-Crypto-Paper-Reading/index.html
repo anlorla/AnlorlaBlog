@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>UIP-Crypto Paper Reading | Anlorla</title><meta name="author" content="Anlorla"><meta name="copyright" content="Anlorla"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Information title: End-to-Same-End Encryption: Modularly Augmenting an App with an Efficient, Portable, and Blind Cloud Storage author: Long Chen, Institute of Software, Chinese Academy of Sciences; Y">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIP-Crypto Paper Reading">
+<meta property="og:url" content="http://anlorla.github.io/2024/07/09/UIP-Crypto-Paper-Reading/index.html">
+<meta property="og:site_name" content="Anlorla">
+<meta property="og:description" content="Information title: End-to-Same-End Encryption: Modularly Augmenting an App with an Efficient, Portable, and Blind Cloud Storage author: Long Chen, Institute of Software, Chinese Academy of Sciences; Y">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anlorla.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2024-07-09T00:21:58.000Z">
+<meta property="article:modified_time" content="2024-07-16T13:44:01.652Z">
+<meta property="article:author" content="Anlorla">
+<meta property="article:tag" content="Crypto">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://anlorla.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="http://anlorla.github.io/2024/07/09/UIP-Crypto-Paper-Reading/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'UIP-Crypto Paper Reading',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-16 21:44:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/bg.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Anlorla"><span class="site-name">Anlorla</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">UIP-Crypto Paper Reading</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-07-09T00:21:58.000Z" title="发表于 2024-07-09 08:21:58">2024-07-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-16T13:44:01.652Z" title="更新于 2024-07-16 21:44:01">2024-07-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="UIP-Crypto Paper Reading"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Information"><a href="#Information" class="headerlink" title="Information"></a>Information</h2><ul>
+<li>title: End-to-Same-End Encryption: Modularly Augmenting an App with an Efficient, Portable, and Blind Cloud Storage</li>
+<li>author: Long Chen, Institute of Software, Chinese Academy of Sciences; Ya-Nan Li and Qiang Tang, The University of Sydney; Moti Yung, Google &amp; Columbia University</li>
+<li>year: 2022</li>
+</ul>
+<h2 id="Outset"><a href="#Outset" class="headerlink" title="Outset"></a>Outset</h2><h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>With cloud services becoming more and more prevalent, how can we ensure that data on cloud services is secure? Existing cloud storage services either store user data directly or hold decryption keys, which means that servers have access to plaintext data and there is a risk of privacy leakage. As a result, the paper proposes a new end-to-end encrypted cloud storage system, <strong>Portable Blind Cloud Storage (PBCS)</strong>, to ensure that the data remains encrypted during transmission and storage, and is completely invisible to the cloud server, as seen by the <strong>‘B’ (Blind) in PBCS is important!</strong></p>
+<h3 id="Requirement"><a href="#Requirement" class="headerlink" title="Requirement"></a>Requirement</h3><p>In the class, Mr. Tang explained to us that the application of cryptography always needs to consider security and usability, balancing the compromise between the two, and only the system architecture that follows these two properties has the chance to come into the public’s view.</p>
+<p>In addition to this, it is often necessary to consider the following indicators:</p>
+<ul>
+<li><p>Portability &amp; cloud-blindness</p>
+<p>Portability is a desired prop erty since a user may access his content from multiple devices, such as mobile phones, laptops, and desktops. To protect user data against cloud, the data stored in cloud should be blind to the cloud.</p>
+<p>Password-hardened encryption(PHE) is one of the cryptographic tools to strengthen the security of password protected storage. It is secure against external attackers that may breach the storage server. </p>
+</li>
+<li><p>Deployability</p>
+<p>It can support deployment with access to more APIs than just storage, retrieval, deletion and access control.</p>
+</li>
+<li><p>Built-in App login</p>
+<p>The problem of compromised passwords that may result from the frequent reuse of passwords by users. When the App server is corrupted, the login password may be learnt via offline attacks. Then the adversary can use this password to breach into the secure storage system</p>
+</li>
+</ul>
+<p>A comparison of PBCS with previously available systems shows that PBCS improves in a number of ways, as shown below.</p>
+<p><img src="/2024/07/09/UIP-Crypto-Paper-Reading/image-20240710101409628.png" alt="image-20240710101409628"></p>
+<h2 id="Architecture-Overview"><a href="#Architecture-Overview" class="headerlink" title="Architecture Overview"></a>Architecture Overview</h2><p>First of all, we can overview the design of the whole system from a global perspective, one involves three entities: Key Server, Client and Data Server, the main role of the three are as follows:</p>
+<ul>
+<li>Client interact with the key server to generate high-entropy ciphers for authentication and share master keys for data encryption before storing them with the data server .</li>
+<li>The key server collaborates with the data server by providing authentication ciphers and managing encryption keys to ensure secure storage and access to data in a cloud environment.</li>
+<li>The data server receives the encrypted data from the client, stores it securely, and allows authorized access based on the authentication provided by the key server, thus creating a secure data management system in the cloud storage architecture.</li>
+</ul>
+<p>The interaction process between the three entities and the data flow is shown below.</p>
+<p><img src="/2024/07/09/UIP-Crypto-Paper-Reading/image-20240710100708873.png" alt="image-20240710100708873"></p>
+<p>The process can be described as follows:</p>
+<ol>
+<li>the client derives his password by querying the key server with his passphrase.</li>
+<li>the client logins the data server with his ID and the derived password.</li>
+<li>the client logins the key server.</li>
+<li>the client “shares” his master key.</li>
+<li>the client encrypts his data with the master key and deposit the ciphertext to the data server.</li>
+</ol>
+<h2 id="Main-system-architecture-technology"><a href="#Main-system-architecture-technology" class="headerlink" title="Main system architecture/technology"></a>Main system architecture/technology</h2><p>Based on the above, we can further understand the main architecture of the system. It’s worth mentioning that PBCS fully leverages the existing infrastructure of a typical App.</p>
+<p>The PBCS system has two parts: <strong>KEM</strong>(Key Encapsulation Mechanism) for <strong>generating and storing a strong master key</strong> and <strong>DEM</strong>(Data Encapsulation Mechanism) for <strong>encrypting content,</strong> with the security of the master key determining the confidentiality and integrity of the data.</p>
+<h3 id="prior-knowledge-defination"><a href="#prior-knowledge-defination" class="headerlink" title="prior knowledge/defination"></a>prior knowledge/defination</h3><p><strong>IND-CPA:</strong> INDistinguishability under Chosen Plaintext Attack, golden standard to evaluate the security of a system.</p>
+<p><strong>End-to-End Encryption</strong>: According to Mr. Tang Qiang’s description in class, the main encryption methods we discussed are End2End and Hop2Hop, the difference between the two is that End2End encryption occurs <strong>only at the communication endpoints</strong> (i.e., the sender and intended recipient) for encryption and decryption to occur. In this setup, no intermediary party or service provider, such as an Internet Service Provider (ISP) or a messaging platform, has access to plaintext data, even if they are responsible for transmitting it. The data is encrypted on the client side and can <strong>only be decrypted by the user with the correct key</strong>,the cloud server does not have access to the plaintext data.</p>
+<p><strong>Login mechanisms:</strong> Without loss of generality, a login mechanism can be abstracted as the register algorithm <em>AuthReg</em> and the login algorithm <em>Login</em>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Variables:</span><br><span class="line">Client U, Server D,</span><br><span class="line">authenticator a_id(can be password <span class="keyword">or</span> token),</span><br><span class="line">stub b_id(<span class="keyword">for</span> later login vertification)</span><br><span class="line"></span><br><span class="line">AuthReg:</span><br><span class="line"><span class="number">1.</span>U keeps a_id</span><br><span class="line"><span class="number">2.</span>D gets b_id </span><br><span class="line"></span><br><span class="line">Login:</span><br><span class="line"><span class="number">1.</span>U presents <span class="built_in">id</span> <span class="keyword">and</span> a_id</span><br><span class="line"><span class="number">2.</span>output a bit b to denote success <span class="keyword">or</span> <span class="keyword">not</span></span><br></pre></td></tr></table></figure>
+<p> <strong>ε-Security:</strong> The probability of the adversary wining the Bypass game is less than ε.</p>
+<p><strong>IBOPRF:</strong> Identity Based Oblivious Pseudorandom Function, is a chanllenge-response protocol</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>IBOPRF server computes a specific PRF key k_id <span class="keyword">for</span> each identity <span class="built_in">id</span></span><br><span class="line"><span class="number">2.</span>client obliviously compute the PRF value Fk_id(x) on his <span class="built_in">input</span> x via interactions <span class="keyword">with</span> the server</span><br><span class="line"><span class="number">3.</span>Fk_id(x) can be encoded into a long password</span><br></pre></td></tr></table></figure>
+<p>IBOPRF should guarantee the <strong>uniqueness, pseudorandomness and obliviousness</strong>.</p>
+<h3 id="Syntax-of-the-KEM"><a href="#Syntax-of-the-KEM" class="headerlink" title="Syntax of the KEM"></a>Syntax of the KEM</h3><p>The design of this part of KEM is very challenging. Each of them has three subroutines, i.e., the three components of KEM: <strong>Register, Give and Take</strong>, for each of the three previously mentioned entities: <strong>client, key server and data server.</strong></p>
+<ul>
+<li><p>Register</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>Client public parameters: PPk,PPd</span><br><span class="line"><span class="number">2.</span>interact <span class="keyword">with</span> two servers</span><br><span class="line"><span class="number">3.</span>two servers update states Sk,Sd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Give</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>Client <span class="built_in">input</span>: <span class="built_in">id</span>,PPk,PPd</span><br><span class="line"><span class="number">2.</span>two Servers <span class="built_in">input</span>: Sk <span class="keyword">or</span> Sd <span class="keyword">and</span> SPk <span class="keyword">or</span> SPd</span><br><span class="line"><span class="number">3.</span>two servers update states Sk,Sd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Take</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>Client retrieves: master key</span><br><span class="line"><span class="number">2.</span>Client <span class="built_in">input</span>: <span class="built_in">id</span>,PP,PPk,PPd</span><br><span class="line"><span class="number">3.</span>two Servers <span class="built_in">input</span>: Sk <span class="keyword">or</span> Sd <span class="keyword">and</span> SPk <span class="keyword">or</span> SPd</span><br><span class="line"><span class="number">4.</span>two servers update states Sk,Sd</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Security-models"><a href="#Security-models" class="headerlink" title="Security models"></a>Security models</h3><p>We can model security against a compromised key/data server, in this case <strong>IND-CKS</strong> or <strong>IND-CDS</strong> security (CKS stands for Compromised Key Server, CDS stands for Compromised Data Server).</p>
+<p>During the experiment, the adversary’s goal was to <strong>distinguish the stored master key from the random key</strong> by manipulating the protocol and simulating the target client in front of the server. The security mechanisms of the system were tested through experiments to ensure that <strong>the confidentiality and integrity of the master key is maintained</strong> even in the face of adversarial actions.</p>
+<p>Master key confidentiality against the compromised kay server can be described as follow:</p>
+<script type="math/tex; mode=display">
+Pr[Exp^{IND-CKS}_A(1λ, 1n)= 1]≤ 1/2 + Adv(n) + negl(λ)</script><p>It should be mentioned that this experiment guards against the possibility of impersonating a client in case the key server is compromised than PPSS.</p>
+<h2 id="Details"><a href="#Details" class="headerlink" title="Details"></a>Details</h2><h3 id="Simple-cloud-server-authtication"><a href="#Simple-cloud-server-authtication" class="headerlink" title="Simple cloud  server authtication"></a>Simple cloud  server authtication</h3><p>With IBOPRF (Identity Based Oblivious PRF), the client only needs to <strong>memorize a short passphrase to generate a long passphrase</strong>, and the pseudorandomness ensures that the low entropy passphrase <strong>remains secret</strong> from the (malicious) data server when the (malicious) data server blindly checks the IBOPRF a finite number of times with the same identity.</p>
+<h3 id="Integrating-App-login"><a href="#Integrating-App-login" class="headerlink" title="Integrating App login"></a>Integrating App login</h3><p>In practice, users often reuse their passwords, or use different passwords for different services, which can lead to key leakage to the data server.To solve this problem, one idea is to let the application login complete naturally <strong>in thr meantime</strong> of that the “Give” or “Take” protocol is executed.</p>
+<h3 id="Integrity-guarantee"><a href="#Integrity-guarantee" class="headerlink" title="Integrity guarantee"></a>Integrity guarantee</h3><p>Since a malicious server may intentionally violate the protocol and let the client accept a modified master key, the integrity of the master key also needs to be guaranteed, so the following solution involves <strong>HMAC</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Solution:</span><br><span class="line">Tear the encryption key into two parts: k1 <span class="keyword">and</span> k2 </span><br><span class="line">(both derived <span class="keyword">from</span> r_id <span class="keyword">and</span> PP via different key derivation function )</span><br><span class="line">k1 <span class="keyword">is</span> used to encrypt mk <span class="keyword">and</span> get the ciphertext ct</span><br><span class="line">k2 <span class="keyword">is</span> used to derive a HMAC </span><br><span class="line">token = HMAC(ct,k2), stored on the key server side</span><br></pre></td></tr></table></figure>
+<h3 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h3><p>The safety of the system can be evaluated by starting with the following two components:</p>
+<p>1) As can be seen from the above introduction,the master key is confidential to the data server, this is obvious because adversary can only recover token to access key server. Hence the probability <strong>for any adversary to win the IND-CDS game</strong> is less than:</p>
+<script type="math/tex; mode=display">
+1/2+ε+B_K/2^d+negl(λ)</script><p>The theorem can be described as:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The IBOPRF <span class="keyword">is</span> (ε,d,B)-pseudorandomness.</span><br><span class="line">The total number of the adversary calling IBOPRF service <span class="keyword">is</span> bounded by B.</span><br><span class="line">The total number of the invalid APP login <span class="keyword">is</span> bounded by B_K.</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Because the malicious key server can not make the forged tuple (ct′,τ′) to be accepted by the client. Hence the probability <strong>for any adversary to win the IND-CKS game</strong> is less than:</li>
+</ol>
+<script type="math/tex; mode=display">
+1/2+ε+negl(λ)</script><p>The theorem can be described as:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The IBOPRF <span class="keyword">is</span> (ε,d,q)-obliviousness.</span><br><span class="line">λ <span class="keyword">is</span> the security parameter.</span><br></pre></td></tr></table></figure>
+<h2 id="Evaluations"><a href="#Evaluations" class="headerlink" title="Evaluations"></a>Evaluations</h2><h3 id="Deployability"><a href="#Deployability" class="headerlink" title="Deployability"></a>Deployability</h3><p>PBCS system is easy to be adopted to existing Apps, simply run the keyServerAPI on the App provider’s administrative server and call the clientAPI on the App’s client side to provide secure deposit and retrieve.</p>
+<h3 id="Efficiency"><a href="#Efficiency" class="headerlink" title="Efficiency"></a>Efficiency</h3><p>The implementation of cryptographic primitives using standard Java API and Bouncy Castle library ensures efficiency in the PBCS system, with optimizations like TLS 1.2 and AES encryption for secure communication and storage.</p>
+<h3 id="Economical-Cost"><a href="#Economical-Cost" class="headerlink" title="Economical Cost"></a>Economical Cost</h3><p>Real-world experiments conducted on Amazon Web Service (AWS) highlight the cost-effectiveness of the PBCS system, making it an economically viable solution for secure cloud storage deployments.</p>
+<h3 id="Scalability"><a href="#Scalability" class="headerlink" title="Scalability"></a>Scalability</h3><p>Through throughput tests on key server performance, the scalability of the PBCS system is evaluated, showcasing its ability to handle increasing requests and data volumes efficiently</p>
+<h2 id="Advantages-and-disadvantages"><a href="#Advantages-and-disadvantages" class="headerlink" title="Advantages and disadvantages"></a>Advantages and disadvantages</h2><ol>
+<li><h3 id="Advantages"><a href="#Advantages" class="headerlink" title="Advantages"></a>Advantages</h3><ol>
+<li><strong>Enhanced privacy protection</strong>: Data is completely invisible to the cloud server, solving the privacy issues in existing cloud storage services.</li>
+<li><strong>Ease of use</strong>: User-friendly experience, only one password phrase is needed to access the data without complex key management.</li>
+<li><strong>Efficient performance</strong>: Experimental results show that the system operates efficiently in real network environments.</li>
+<li><strong>Flexibility and Portability</strong>: Users can access their data on any device without worrying about data security.</li>
+</ol>
+<h3 id="Disadvantages"><a href="#Disadvantages" class="headerlink" title="Disadvantages"></a>Disadvantages</h3><ol>
+<li><strong>Key management is user-dependent</strong>: Users need to keep their password phrases safe and may not be able to access their data if they lose their password phrases.</li>
+<li><strong>Complexity</strong>: The system design and implementation are relatively complex, especially in key management and data encryption and decryption.</li>
+<li><strong>Performance overhead</strong>: although experiments have shown the system to be efficient, encryption and decryption operations still introduce some performance overhead, especially when dealing with large-scale data.</li>
+<li><strong>Reliance on external key servers</strong>: The system relies on key servers for key management, and if the key servers are compromised, the security of the system may be compromised.</li>
+</ol>
+</li>
+</ol>
+<h2 id="Extended-applications"><a href="#Extended-applications" class="headerlink" title="Extended applications"></a>Extended applications</h2><p>Instantiating PBCS in different settings could lead to different interesting new applications. The following three examples are scenarios where the PBCS system is applied:</p>
+<ul>
+<li><p>Secure personal repository</p>
+<p>Keeping personal multimedia data such as pictures and video albums secure in cloud and available across devices is a general usage of cloud storage. PBCS in this paper has significantly <strong>improved the preliminary version both on the usability and security.</strong> Particularly, it allow the data server to be plain cloud storage, and reuses the App log-in requiring only one single password after upgrade.</p>
+</li>
+<li><p>Secure sync-up system for E2EE messaging Apps</p>
+<p>PBCS can help users synchronize their contact lists and chat history in an encrypted manner on a third-party cloud server chosen by themselves, while only use the App provider’s server as the key management server of PBCS. Therefore the contact list can <strong>only be accessed by the user with correct passphrase</strong>.</p>
+</li>
+<li><p>Portable personal AI assistant with privacy guarantee</p>
+<p>Once a personal model is generated, the user can securely store her personal AI assistant model in the cloud, and get access to it via any other device or when changing devices. With PBCS, the user plain data never leaves the user devices and <strong>the user has full control of his own data</strong> and personal AI assistant model which <strong>remains private</strong> when passing across devices.</p>
+</li>
+</ul>
+<h2 id="Lessons-Learned"><a href="#Lessons-Learned" class="headerlink" title="Lessons Learned"></a>Lessons Learned</h2><p>As mentioned in Occam’s razor principle: <em>“simpler solutions are more likely to be correct than complex ones”</em>, the simpler the architecture of a system, the better, and we need to move towards high compatibility and low redundancy in our architectural design. We need to approach high compatibility and low redundancy in our architectural design, and at the same time pay attention to simplify engineering and reasonable maintenance.</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://anlorla.github.io">Anlorla</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://anlorla.github.io/2024/07/09/UIP-Crypto-Paper-Reading/">http://anlorla.github.io/2024/07/09/UIP-Crypto-Paper-Reading/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://anlorla.github.io" target="_blank">Anlorla</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Crypto/">Crypto</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/14/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-02/" title="数学建模-02"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数学建模-02</div></div></a></div><div class="next-post pull-right"><a href="/2024/07/05/DL-%E5%A6%82%E4%BD%95%E8%AF%BB%E8%AE%BA%E6%96%87/" title="DL-如何读论文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">DL-如何读论文</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Anlorla</div><div class="author-info__description">江海不见，我遁空门。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/anlorla"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/anlorla" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1502848981@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Fight!!!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Information"><span class="toc-number">1.</span> <span class="toc-text">Information</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Outset"><span class="toc-number">2.</span> <span class="toc-text">Outset</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">2.1.</span> <span class="toc-text">Intro</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Requirement"><span class="toc-number">2.2.</span> <span class="toc-text">Requirement</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architecture-Overview"><span class="toc-number">3.</span> <span class="toc-text">Architecture Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Main-system-architecture-technology"><span class="toc-number">4.</span> <span class="toc-text">Main system architecture&#x2F;technology</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#prior-knowledge-defination"><span class="toc-number">4.1.</span> <span class="toc-text">prior knowledge&#x2F;defination</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Syntax-of-the-KEM"><span class="toc-number">4.2.</span> <span class="toc-text">Syntax of the KEM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Security-models"><span class="toc-number">4.3.</span> <span class="toc-text">Security models</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Details"><span class="toc-number">5.</span> <span class="toc-text">Details</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Simple-cloud-server-authtication"><span class="toc-number">5.1.</span> <span class="toc-text">Simple cloud  server authtication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Integrating-App-login"><span class="toc-number">5.2.</span> <span class="toc-text">Integrating App login</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Integrity-guarantee"><span class="toc-number">5.3.</span> <span class="toc-text">Integrity guarantee</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Security"><span class="toc-number">5.4.</span> <span class="toc-text">Security</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluations"><span class="toc-number">6.</span> <span class="toc-text">Evaluations</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Deployability"><span class="toc-number">6.1.</span> <span class="toc-text">Deployability</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Efficiency"><span class="toc-number">6.2.</span> <span class="toc-text">Efficiency</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Economical-Cost"><span class="toc-number">6.3.</span> <span class="toc-text">Economical Cost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scalability"><span class="toc-number">6.4.</span> <span class="toc-text">Scalability</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advantages-and-disadvantages"><span class="toc-number">7.</span> <span class="toc-text">Advantages and disadvantages</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Advantages"><span class="toc-number">7.1.</span> <span class="toc-text">Advantages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Disadvantages"><span class="toc-number">7.2.</span> <span class="toc-text">Disadvantages</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Extended-applications"><span class="toc-number">8.</span> <span class="toc-text">Extended applications</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lessons-Learned"><span class="toc-number">9.</span> <span class="toc-text">Lessons Learned</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/01/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-07/" title="数学建模-07">数学建模-07</a><time datetime="2024-08-01T05:43:43.000Z" title="发表于 2024-08-01 13:43:43">2024-08-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/31/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-06/" title="数学建模-06">数学建模-06</a><time datetime="2024-07-31T08:20:46.000Z" title="发表于 2024-07-31 16:20:46">2024-07-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/27/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-05/" title="数学建模-05">数学建模-05</a><time datetime="2024-07-27T07:52:09.000Z" title="发表于 2024-07-27 15:52:09">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/27/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-04/" title="数学建模-04">数学建模-04</a><time datetime="2024-07-27T02:11:45.000Z" title="发表于 2024-07-27 10:11:45">2024-07-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/26/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-03/" title="数学建模-03">数学建模-03</a><time datetime="2024-07-26T12:57:49.000Z" title="发表于 2024-07-26 20:57:49">2024-07-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Anlorla</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">蝉总是苏醒于无人在意的寻常白日</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
