@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数学建模-10 | Anlorla</title><meta name="author" content="Anlorla"><meta name="copyright" content="Anlorla"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="10 岭回归和lasso回归引入 当自变量存在完全多重共线性时无法再使用OLS进行多元线性回归：  而岭回归不再面临矩阵不存在的问题：  古典回归模型古典回归模型满足下面的四个假定：  线性假定   严格外生性：保证估计出来的回归系数无偏且一致 当满足严格外生性时，下面两个定理自然成立：    无完全多重共线性：保证能够估计出来 由下面的推导可以得出XX’一定可逆，这样就一定可以计算出回归系数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学建模-10">
+<meta property="og:url" content="http://anlorla.github.io/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/index.html">
+<meta property="og:site_name" content="Anlorla">
+<meta property="og:description" content="10 岭回归和lasso回归引入 当自变量存在完全多重共线性时无法再使用OLS进行多元线性回归：  而岭回归不再面临矩阵不存在的问题：  古典回归模型古典回归模型满足下面的四个假定：  线性假定   严格外生性：保证估计出来的回归系数无偏且一致 当满足严格外生性时，下面两个定理自然成立：    无完全多重共线性：保证能够估计出来 由下面的推导可以得出XX’一定可逆，这样就一定可以计算出回归系数。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://anlorla.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2024-08-08T07:23:54.000Z">
+<meta property="article:modified_time" content="2024-08-09T03:30:38.664Z">
+<meta property="article:author" content="Anlorla">
+<meta property="article:tag" content="数学建模">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://anlorla.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="http://anlorla.github.io/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数学建模-10',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-08-09 11:30:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/bg.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Anlorla"><span class="site-name">Anlorla</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数学建模-10</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-08-08T07:23:54.000Z" title="发表于 2024-08-08 15:23:54">2024-08-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-08-09T03:30:38.664Z" title="更新于 2024-08-09 11:30:38">2024-08-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">数学建模</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数学建模-10"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="10-岭回归和lasso回归"><a href="#10-岭回归和lasso回归" class="headerlink" title="10 岭回归和lasso回归"></a>10 岭回归和lasso回归</h1><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808152534075.png" alt="image-20240808152534075"></p>
+<p>当自变量存在完全多重共线性时无法再使用OLS进行多元线性回归：</p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808154036834.png" alt="image-20240808154036834"></p>
+<p>而岭回归不再面临矩阵不存在的问题：</p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808154550297.png" alt="image-20240808154550297"></p>
+<h2 id="古典回归模型"><a href="#古典回归模型" class="headerlink" title="古典回归模型"></a>古典回归模型</h2><p>古典回归模型满足下面的四个假定：</p>
+<ul>
+<li><p>线性假定</p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808155003736.png" alt="image-20240808155003736"></p>
+</li>
+<li><p>严格外生性：<strong>保证估计出来的回归系数无偏且一致</strong></p>
+<p>当满足严格外生性时，下面两个定理自然成立：</p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808155352251.png" alt="image-20240808155352251"></p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808155404101.png" alt="image-20240808155404101"></p>
+</li>
+<li><p>无完全多重共线性：保证能够估计出来</p>
+<p>由下面的推导可以得出XX’一定可逆，这样就一定可以计算出回归系数。</p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808155704298.png" alt="image-20240808155704298"></p>
+</li>
+<li><p>球型扰动项</p>
+<p>条件：</p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808155926983.png" alt="image-20240808155926983"></p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808212941416.png" alt="image-20240808212941416"></p>
+<p>结论：</p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808213322087.png" alt="image-20240808213322087"></p>
+</li>
+</ul>
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808213944948.png" alt="image-20240808213944948"></p>
+<p>岭回归相比起多元线性回归的优点：不要求XX’是可逆的，对应于古典回归模型的假设，此时可以出现n&lt;k的情况，其中n是样本数，k是指标数。</p>
+<h3 id="如何选择λ"><a href="#如何选择λ" class="headerlink" title="如何选择λ"></a>如何选择λ</h3><p><strong>==&gt;岭迹分析法</strong></p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808214522333.png" alt="image-20240808214522333"></p>
+<p><strong>==&gt;VIF方法</strong></p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808214738268.png" alt="image-20240808214738268"></p>
+<p><strong>==&gt;最小化均方预测误差</strong></p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240808215017603.png" alt="image-20240808215017603"></p>
+<p>X需要进行标准化。</p>
+<h2 id="Lasso回归模型（优先使用）"><a href="#Lasso回归模型（优先使用）" class="headerlink" title="Lasso回归模型（优先使用）"></a>Lasso回归模型（优先使用）</h2><p>Lasso回归比起岭回归的优点是可以选择变量，可以看作是逐步回归的升级版，在机器学习中Lasso回归是一种强有力的特征选择方法。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45404805/article/details/139677550">LASSO回归的L1惩罚项和L2的比较</a></p>
+<p>优点：L1正则化倾向于<strong>将不重要的回归系数压缩至零</strong>，从而实现变量选择。</p>
+<p>缺点：无显示解，只能使用近似解估计算法（坐标轴下降法和最小角回归法），估计出来的结果不是太稳定。</p>
+<p>在选择λ时，仍旧可以使用MSPE。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>使用stata导入数据</p>
+</li>
+<li><p>将数据标准化，量纲统一</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//标准化</span></span><br><span class="line"><span class="keyword">egen</span> 新变量名=std(老变量名)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>先使用一般OLS 来计算VIF，观察是否存在多重共线性问题。如果有则需要进行变量筛选。</p>
+</li>
+<li><p>选择最佳参数λ</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//k折交叉验证</span></span><br><span class="line">cvlasso val1,val2,……, lopt seed(529)</span><br><span class="line"><span class="comment">//后面的种子是为了便于复现此次随机的结果</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240809112506797.png" alt="image-20240809112506797"></p>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240809112757399.png" alt="image-20240809112757399"></p>
+<p>从上图最后选择的变量也可以证明lasso回归可以进行变量筛选。</p>
+</li>
+</ol>
+<p><img src="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/image-20240809112824417.png" alt="image-20240809112824417"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://anlorla.github.io">Anlorla</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://anlorla.github.io/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/">http://anlorla.github.io/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://anlorla.github.io" target="_blank">Anlorla</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">数学建模</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/08/09/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-11/" title="数学建模-11"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数学建模-11</div></div></a></div><div class="next-post pull-right"><a href="/2024/08/05/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-09/" title="数学建模-09"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数学建模-09</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/07/04/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-01/" title="数学建模-01"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-04</div><div class="title">数学建模-01</div></div></a></div><div><a href="/2024/07/14/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-02/" title="数学建模-02"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-14</div><div class="title">数学建模-02</div></div></a></div><div><a href="/2024/07/26/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-03/" title="数学建模-03"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-26</div><div class="title">数学建模-03</div></div></a></div><div><a href="/2024/07/27/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-04/" title="数学建模-04"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-27</div><div class="title">数学建模-04</div></div></a></div><div><a href="/2024/08/01/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-07/" title="数学建模-07"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-08-01</div><div class="title">数学建模-07</div></div></a></div><div><a href="/2024/07/27/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-05/" title="数学建模-05"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-27</div><div class="title">数学建模-05</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Anlorla</div><div class="author-info__description">江海不见，我遁空门。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/anlorla"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/anlorla" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1502848981@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Fight!!!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E5%B2%AD%E5%9B%9E%E5%BD%92%E5%92%8Classo%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">10 岭回归和lasso回归</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5"><span class="toc-number">1.1.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%A4%E5%85%B8%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">古典回归模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92"><span class="toc-number">1.3.</span> <span class="toc-text">岭回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%CE%BB"><span class="toc-number">1.3.1.</span> <span class="toc-text">如何选择λ</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lasso%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B%EF%BC%88%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">Lasso回归模型（优先使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/13/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-12/" title="数学建模-12">数学建模-12</a><time datetime="2024-08-13T02:37:03.000Z" title="发表于 2024-08-13 10:37:03">2024-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/09/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-11/" title="数学建模-11">数学建模-11</a><time datetime="2024-08-09T03:43:01.000Z" title="发表于 2024-08-09 11:43:01">2024-08-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/08/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-10/" title="数学建模-10">数学建模-10</a><time datetime="2024-08-08T07:23:54.000Z" title="发表于 2024-08-08 15:23:54">2024-08-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/05/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-09/" title="数学建模-09">数学建模-09</a><time datetime="2024-08-05T03:39:38.000Z" title="发表于 2024-08-05 11:39:38">2024-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/03/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-08/" title="数学建模-08">数学建模-08</a><time datetime="2024-08-03T02:14:59.000Z" title="发表于 2024-08-03 10:14:59">2024-08-03</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Anlorla</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">蝉总是苏醒于无人在意的寻常白日</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
